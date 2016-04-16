@@ -1,0 +1,833 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="J07Rx2NjTiwjIyxdGuCALSCM2Kzq294kYmnj1f4Izoc" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/fonts/fonts.css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Programming in Scala," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HEXH's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Parameterize arrays with types
+Note that when you parameterize an instance with both a type and a value, the type comes first in its square brackets, followed by the value in parentheses.
+val greetStr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter3：Next Steps in Scala">
+<meta property="og:url" content="http://dangxia.github.io/2015/11/21/scala/Next-Steps-in-Scala/index.html">
+<meta property="og:site_name" content="HEXH's Blog">
+<meta property="og:description" content="Parameterize arrays with types
+Note that when you parameterize an instance with both a type and a value, the type comes first in its square brackets, followed by the value in parentheses.
+val greetStr">
+<meta property="og:image" content="http://dangxia.github.io/img/scala/operation.png">
+<meta property="og:updated_time" content="2016-04-15T14:31:23.995Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter3：Next Steps in Scala">
+<meta name="twitter:description" content="Parameterize arrays with types
+Note that when you parameterize an instance with both a type and a value, the type comes first in its square brackets, followed by the value in parentheses.
+val greetStr">
+<meta name="twitter:image" content="http://dangxia.github.io/img/scala/operation.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Chapter3：Next Steps in Scala | HEXH's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64562250-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?192da5f5f63c7884ac9970b2d7d49848";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">HEXH's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">面朝大海，春暖花开</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Chapter3：Next Steps in Scala
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-21T17:24:09+08:00" content="2015-11-21">
+              2015-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Scala/" itemprop="url" rel="index">
+                    <span itemprop="name">Scala</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/21/scala/Next-Steps-in-Scala/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/21/scala/Next-Steps-in-Scala/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3>Parameterize arrays with types</h3>
+<p><strong>Note that when you parameterize an instance with both a type and a value, the type comes first in its square brackets, followed by the value in parentheses.</strong></p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> greetStrings = <span class="keyword">new</span> <span class="type">Array</span>[<span class="type">String</span>](<span class="number">3</span>)</span><br><span class="line">greetStrings(<span class="number">0</span>) = <span class="string">"Hello"</span></span><br><span class="line">greetStrings(<span class="number">1</span>) = <span class="string">", "</span></span><br><span class="line">greetStrings(<span class="number">2</span>) = <span class="string">"world!\n"</span></span><br><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">0</span> to <span class="number">2</span>)</span><br><span class="line">  print(greetStrings(i))</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><figcaption><span>In a more explicit mood</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> greetStrings: <span class="type">Array</span>[<span class="type">String</span>] = <span class="keyword">new</span> <span class="type">Array</span>[<span class="type">String</span>](<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>Note that the type parameterization portion (the type names in square brackets) forms part of the type of the instance, the value parameterization part (the values in parentheses) does not</strong><br>
+<strong>Note that arrays in Scala are accessed by placing the index inside parentheses, not square brackets as in Java.</strong></p>
+<h4>Scala concerning the meaning of val</h4>
+<p>When you define a variable with val, the variable can’t be reassigned, but the object to which it refers could potentially still be changed.</p>
+<ul>
+<li>you couldn’t reassign greetStrings to a different array; greetStrings will always point to the same Array[String] instance with which it was initialized.</li>
+<li>you can change the elements of that Array[String] over time<br>
+<strong>So the array itself is mutable.</strong></li>
+</ul>
+<h4>Scala operation</h4>
+<p><img src="/img/scala/operation.png" alt="" title="All operations are method calls in Scala"></p>
+<h4>general rule of Scala:</h4>
+<ul>
+<li>
+<p>if a method takes only one parameter, you can call it without a dot or parentheses.</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (i &lt;- <span class="number">0</span> to <span class="number">2</span>)</span><br><span class="line">  print(greetStrings(i))</span><br></pre></td></tr></table></figure>
+<p>The <code>to</code> in this example is actually a method that takes one <code>Int</code> argument. The code <code>0 to 2</code> is transformed into the method call <code>(0).to(2)</code><br>
+<strong>Note that this syntax only works if you explicitly specify the receiver of the method call. You cannot write “println 10”, but you canwrite “Console println 10”.</strong></p>
+</li>
+<li>
+<p>When you apply parentheses surrounding one or more values to a variable, Scala will transform the code into an invocation of a method named apply on that variable.<br>
+So greetStrings(i) gets transformed into greetStrings.apply(i) Thus accessing an element of an array in Scala is simply a method call like any other. This principle is not restricted to arrays: any application of an object to some arguments in parentheses will be transformed to an apply method call. Of course this will compile only if that type of object actually defines an apply method.</p>
+</li>
+<li>
+<p>when an assignment is made to a variable to which parentheses and one or more arguments have been applied, the compiler will transform that into an invocation of an update method that takes the arguments in parentheses as well as the object to the right of the equals sign.<br>
+<code>greetStrings(0) = &quot;Hello&quot;</code> will be transformed into:<code>greetStrings.update(0, &quot;Hello&quot;)</code></p>
+</li>
+</ul>
+<h4>Scala doesn’t technically have operator overloading</h4>
+<p>Scala achieves a conceptual simplicity by treating everything, from arrays to expressions, as objects with methods. You don’t have to remember special cases, such as the differences in Java between primitive and their corresponding wrapper types, or between arrays and regular objects. Moreover,this uniformity does not incur a significant performance cost. The Scala compiler uses Java arrays, primitive types, and native arithmetic where possible in the compiled code.<br>
+Scala获得了一个概念上的简单性，通过把一切（无论是数组还是表达式),都当作objects whih methods来对待。<br>
+Scala doesn’t technically have operator overloading, because it doesn’t actually have operators in the traditional sense. Instead, characters such as +, -, *, and / can be used in method names. Thus, when you typed 1 + 2 into the Scala interpreter in Step 1, you were actually invoking a method named + on the Int object 1, passing in 2 as a parameter. As illustrated in Figure 3.1, you could alternatively have written 1 + 2 using traditional method invocation syntax, (1).+(2).</p>
+<h4>examples</h4>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> numNames = <span class="type">Array</span>(<span class="string">"zero"</span>, <span class="string">"one"</span>, <span class="string">"two"</span>)</span><br><span class="line"><span class="comment">//val numNames2 = Array.apply("zero", "one", "two")</span></span><br></pre></td></tr></table></figure>
+<h3>Use lists</h3>
+<blockquote>
+<p>One of the big ideas of the functional style of programming is that methods should not have side effects. A method’s only act should be to compute and return a value. Some benefits gained when you take this approach are that methods become less entangled, and therefore more reliable and reusable. Another benefit (in a statically typed language) is that everything that goes into and out of a method is checked by a type checker, so logic errors are more likely to manifest themselves as type errors. Applying this functional philosophy to the world of objects means making objects immutable.</p>
+</blockquote>
+<ul>
+<li>arrays are mutable objects</li>
+<li>Scala Lists are always immutable (whereas Java Lists can be mutable). Scala’s List is designed to enable a functional style of programming</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">// List has a method named ‘:::’ for list concatenation</span></span><br><span class="line"><span class="keyword">val</span> oneTwo = <span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line"><span class="keyword">val</span> threeFour = <span class="type">List</span>(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="keyword">val</span> oneTwoThreeFour = oneTwo ::: threeFour</span><br><span class="line">println(oneTwo +<span class="string">" and "</span>+ threeFour +<span class="string">" were not mutated."</span>)</span><br><span class="line">println(<span class="string">"Thus, "</span>+ oneTwoThreeFour +<span class="string">" is a new list."</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><figcaption><span>output</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">#List(1, 2) and List(3, 4) were not mutated.</span></span><br><span class="line"><span class="comment">#Thus, List(1, 2, 3, 4) is a new list.</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Cons(::) prepends a new element to the beginning of an existing list,</span></span><br><span class="line"><span class="comment">//and returns the resulting list</span></span><br><span class="line"><span class="keyword">val</span> twoThree = <span class="type">List</span>(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="keyword">val</span> oneTwoThree = <span class="number">1</span> :: twoThree</span><br><span class="line">println(oneTwoThree)</span><br><span class="line"><span class="comment">//:List(1, 2, 3)</span></span><br></pre></td></tr></table></figure>
+<p><strong>NOTE:</strong></p>
+<blockquote>
+<p>In the expression “1 :: twoThree”, :: is a method of its right operand, the list, twoThree. You might suspect there’s something amiss with the associativity of the :: method, but it is actually a simple rule to remember: If a method is used in operator notation, such as a * b, the method is invoked on the left operand, as in a.*(b)—unless the method name ends in a colon. If the method name ends in a colon, the method is invoked on the right operand. Therefore, in 1 :: twoThree, the :: method is invoked on twoThree, passing in 1, like this: twoThree.::(1)</p>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Nil is a empty List(or List())</span></span><br><span class="line"><span class="keyword">val</span> oneTwoThree = <span class="number">1</span> :: <span class="number">2</span> :: <span class="number">3</span> :: <span class="type">Nil</span></span><br><span class="line">println(oneTwoThree)</span><br><span class="line"><span class="comment">//:List(1,2,3)</span></span><br></pre></td></tr></table></figure>
+<p><strong>Why not append to lists?</strong></p>
+<blockquote>
+<p>Class List does offer an “append” operation —it’s written :+ and isexplained in Chapter 24— but this operation is rarely used, becausethe time it takes to append to a list grows linearly with the size of thelist, whereas prepending with :: takes constant time. Your options ifyou want to build a list efficiently by appending elements is to prependthem, then when you’re done call reverse; or use a ListBuffer, amutable list that does offer an append operation, and when you’re donecall toList. ListBuffer will be described in Section 22.2.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th><strong>What it is</strong></th>
+<th><strong>What it does</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List() or Nil</td>
+<td>The empty List</td>
+</tr>
+<tr>
+<td>List(&quot;Cool&quot;, &quot;tools&quot;, &quot;rule&quot;)</td>
+<td>Creates a new List[String] with the three values &quot;Cool&quot;, &quot;tools&quot;, and &quot;rule&quot;</td>
+</tr>
+<tr>
+<td>val thrill = &quot;Will&quot; :: &quot;fill&quot; :: &quot;until&quot; :: Nil</td>
+<td>Creates a new List[String] with the three values &quot;Will&quot;, &quot;fill&quot;, and &quot;until&quot;</td>
+</tr>
+<tr>
+<td>List(&quot;a&quot;, &quot;b&quot;) ::: List(&quot;c&quot;, &quot;d&quot;)</td>
+<td>Concatenates two lists (returns a new List[String] with values &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, and &quot;d&quot;)</td>
+</tr>
+<tr>
+<td>thrill(2)</td>
+<td>Returns the element at index 2 (zero based) of the thrill list (returns &quot;until&quot;)</td>
+</tr>
+<tr>
+<td>thrill.count(s =&gt; s.length == 4)</td>
+<td>Counts the number of string elements in thrill that have length 4 (returns 2) thrill.drop(2) Returns the thrill list without its first 2 elements (returns List(&quot;until&quot;))</td>
+</tr>
+<tr>
+<td>thrill.dropRight(2)</td>
+<td>Returns the thrill list without its rightmost 2 elements (returns List(&quot;Will&quot;))</td>
+</tr>
+<tr>
+<td>thrill.exists(s =&gt; s == &quot;until&quot;)</td>
+<td>Determines whether a string element exists in thrill that has the value &quot;until&quot; (returns true)</td>
+</tr>
+<tr>
+<td>thrill.filter(s =&gt; s.length == 4)</td>
+<td>Returns a list of all elements, in order, of the thrill list that have length 4 (returns List(&quot;Will&quot;, &quot;fill&quot;))</td>
+</tr>
+<tr>
+<td>thrill.forall(s =&gt; s.endsWith(&quot;l&quot;))</td>
+<td>Indicates whether all elements in the thrill list end with the letter &quot;l&quot; (returns true)</td>
+</tr>
+<tr>
+<td>thrill.foreach(s =&gt; print(s))</td>
+<td>Executes the print statement on each of the strings in the thrill list (prints &quot;Willfilluntil&quot;)</td>
+</tr>
+<tr>
+<td>thrill.foreach(print)</td>
+<td>Same as the previous, but more concise (also prints &quot;Willfilluntil&quot;)</td>
+</tr>
+<tr>
+<td>thrill.head</td>
+<td>Returns the first element in the thrill list (returns &quot;Will&quot;)</td>
+</tr>
+<tr>
+<td>thrill.init</td>
+<td>Returns a list of all but the last element in the thrill list (returns List(&quot;Will&quot;, &quot;fill&quot;))</td>
+</tr>
+<tr>
+<td>thrill.isEmpty</td>
+<td>Indicates whether the thrill list is empty (returns false)</td>
+</tr>
+<tr>
+<td>thrill.last</td>
+<td>Returns the last element in the thrill list (returns &quot;until&quot;)</td>
+</tr>
+<tr>
+<td>thrill.length</td>
+<td>Returns the number of elements in the thrill list (returns 3)</td>
+</tr>
+<tr>
+<td>thrill.map(s =&gt; s + &quot;y&quot;)</td>
+<td>Returns a list resulting from adding a &quot;y&quot; to each string element in the thrill list (returns List(&quot;Willy&quot;, &quot;filly&quot;, &quot;untily&quot;))</td>
+</tr>
+<tr>
+<td>thrill.mkString(&quot;, &quot;)</td>
+<td>Makes a string with the elements of the list (returns &quot;Will, fill, until&quot;)</td>
+</tr>
+<tr>
+<td>thrill.remove(s =&gt; s.length == 4)</td>
+<td>Returns a list of all elements, in order, of the thrill list except those that have length 4 (returns List(&quot;until&quot;))</td>
+</tr>
+<tr>
+<td>thrill.reverse</td>
+<td>Returns a list containing all elements of the thrill list in reverse order (returns List(&quot;until&quot;, &quot;fill&quot;, &quot;Will&quot;))</td>
+</tr>
+<tr>
+<td>thrill.sort((s, t) =&gt; s.charAt(0).toLower &lt; t.charAt(0).toLower)</td>
+<td>Returns a list containing all elements of the thrill list in alphabetical order of the first character lowercased (returns List(&quot;fill&quot;, &quot;until&quot;, &quot;Will&quot;))</td>
+</tr>
+<tr>
+<td>thrill.tail</td>
+<td>Returns the thrill list minus its first element (returns List(&quot;fill&quot;, &quot;until&quot;))</td>
+</tr>
+</tbody>
+</table>
+<h3>Use tuples</h3>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Programming-in-Scala/" rel="tag">#Programming in Scala</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/21/scala/First-Step-in-Scala/" rel="next" title="Chapter2：First Step in Scala">
+                <i class="fa fa-chevron-left"></i> Chapter2：First Step in Scala
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/21/english/2015/English-Words-20151121/" rel="prev" title="English-Words-20151121">
+                English-Words-20151121 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/11/21/scala/Next-Steps-in-Scala/"
+           data-title="Chapter3：Next Steps in Scala" data-url="http://dangxia.github.io/2015/11/21/scala/Next-Steps-in-Scala/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/logo.svg"
+               alt="Xuehui He" />
+          <p class="site-author-name" itemprop="name">Xuehui He</p>
+          <p class="site-description motion-element" itemprop="description">面朝大海，春暖花开</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">83</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dangxia" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Parameterize arrays with types</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.1.</span> <span class="nav-text">Scala concerning the meaning of val</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.2.</span> <span class="nav-text">Scala operation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.3.</span> <span class="nav-text">general rule of Scala:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.4.</span> <span class="nav-text">Scala doesn’t technically have operator overloading</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">1.5.</span> <span class="nav-text">examples</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Use lists</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">Use tuples</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui He</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+  
+  <script type="text/javascript" src="/english.js"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xuehuihe-java"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

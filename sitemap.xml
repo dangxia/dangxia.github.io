@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/04/15/chrome/2016-04-15-chrome-redirector/</loc>
+    
+    <lastmod>2016-04-15T16:55:36.150Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/tags/index.html</loc>
+    
+    <lastmod>2016-04-15T14:31:24.004Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/fonts/fonts.css</loc>
+    
+    <lastmod>2016-04-15T14:31:24.001Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/categories/index.html</loc>
+    
+    <lastmod>2016-04-15T14:31:23.997Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/04/02/ubuntu/2014-04-02-ubuntu%E8%99%9A%E6%8B%9F%E6%9C%BA/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.997Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/06/03/ubuntu/2013-06-03-apt%E7%9A%84%E7%94%A8%E6%B3%95/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.997Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/07/30/web/2013-07-30-eclipse-maven-gwt-startup/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.997Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/01/02/trivial/apache-http-core/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.997Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/25/trivial/links/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.997Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/06/tools/install-goagent-deps/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.996Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/08/04/trivial/2013-08-04-memo/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.996Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/05/23/trivial/2013-05-23-bookmark/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.996Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/04/27/tools/2014-04-23-markdown/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.996Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/04/30/tools/2014-04-30-grub4dos-install-win7-and-ubuntu/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.996Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/07/tools/2014-05-07-goldendict-tian-jia-you-dao-ji-sheng-ci-ben/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.996Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/10/10/spring/2013-10-10-spring-bootstrap/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/25/storm/2014-05-25-serializer/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/25/storm/2014-05-25-xiao-xi-de-ke-kao-chu-li/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/08/02/spring/2013-08-02-spring-aspect/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/21/scala/Next-Steps-in-Scala/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/12/06/scala/Functional-Objects/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/21/scala/First-Step-in-Scala/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.995Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/07/03/redis/redis-transactions/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.994Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/01/24/scala/Classes-and-Objects/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.994Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/07/02/redis/redis-pipelining/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.994Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/07/03/redis/redis-eval/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.994Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/12/06/scala/Basic-Types-and-Operations/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.994Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/10/30/phoenix/phoenix-install/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.993Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/23/protobuf/2014-05-23-protobuf/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.993Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/06/30/redis/redis-conf/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.993Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/06/maven/2014-05-06-maven-jar-plugin/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.992Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/06/maven/2014-05-06-maven-install-plugin/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.992Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/09/12/maven/2014-09-12-mvn-jetty-debug-in-eclipse/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.992Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/06/maven/2014-05-06-maven-eclipse-plugin-skiped/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.992Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/05/24/linux/2013-05-24-linux-cmd/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/10/26/linux/modify-hostname/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/10/29/linux/linux-cpuinfo/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/04/24/kafka/2014-04-27-read-kafka-source-LogManager/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/05/24/log/2013-05-24-log4j/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/06/30/linux/ssh-behind-socks-5/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/06/linux/update-opensuse-repos/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/04/30/maven/2014-04-30-maven-jdk-version/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.991Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/30/jstorm/JStorm-TopologyBuilder-Code/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.990Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/12/02/jstorm/JStormMasterBatchCoordinator-Code/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.990Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/25/jstorm/JStormCache-Code/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.990Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/04/24/kafka/2014-04-24-kafka-quick-started/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.990Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/25/jstorm/NimbusData-Code/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.990Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/30/jstorm/JStorm-TridentTopology-Code/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.990Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/25/jstorm/JStorm-Local-Dir/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/06/java/IdentityHashMap/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/25/java/Get-the-JVM-Pid/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/10/17/java/2013-10-17-Unsafe/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/10/10/hibernate/2013-10-10-hibernate/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/08/java/java-Binary-Literals/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/03/22/java/AbstractQueuedSynchronizer-Source/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/07/23/java/2013-07-23-getResource/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/06/java/opensuse-replace-openjdk-with-orcal-jdk/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.989Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/08/18/hadoop/2014-08-18-inputformatluo-ji-fen-pian/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/10/28/hexo/install-nodejs-in-openSUSE-13-1/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/04/14/hexo/hexo-local-fonts/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/09/12/hadoop/2014-09-12-calculating-the-capacity-of-a-node/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/04/15/hexo/2016-04-15-use-hexo-renderer-markdown-it/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/08/05/hibernate/2013-08-05-hibernate/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2013/08/06/hibernate/2013-08-06-hibernate-id-accessType/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/09/12/hadoop/2014-09-12-hadoop-configurations/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.988Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/03/15/english/2016/04/English-Words-20160415/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.987Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/03/14/english/2016/03/Skip-List-Cookbook/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.987Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/02/20/english/2016/02/English-Words-20160220/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.986Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/23/english/2016/01/English-Words-20160123/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.986Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/02/15/english/2016/02/English-Words-20160215/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.986Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/25/english/2016/01/English-Words-20160125/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.986Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/26/english/2016/01/English-Words-20160126/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.986Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/02/english/2016/01/English-Words-20160102/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.985Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/23/english/2015/English-Words-20151123/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/07/09/eclipse/eclipse-modify-tab-ui/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/04/30/eclipse/2014-04-30-eclipse-plugin/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/01/16/english/2015/English-Names/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/21/english/2015/English-Words-20151121/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/25/eclipse/2014-05-25-eclipse-mirror/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2014/05/07/eclipse/2014-05-07-eclipse-fonts-and-theme/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.984Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/10/21/assembly/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-1/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/01/06/clojure/Clojure-Programming%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/06/27/clojure/Clojure-%E7%BC%96%E7%A8%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B01/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/04/15/atom/use-atom-write-markdown/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2016/04/15/atom/2016-04-15-atom-basic/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/2015/11/08/algorithm/crc/</loc>
+    
+    <lastmod>2016-04-15T14:31:23.983Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dangxia.github.io/404.html</loc>
+    
+    <lastmod>2016-04-15T14:31:23.982Z</lastmod>
+    
+  </url>
+  
+</urlset>

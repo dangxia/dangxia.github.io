@@ -1,0 +1,1141 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="J07Rx2NjTiwjIyxdGuCALSCM2Kzq294kYmnj1f4Izoc" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/fonts/fonts.css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HEXH's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="EVAL script numkeys key [key ...] arg [arg ...]
+Introduction to EVAL
+EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter built into Redis starting from version 2.6.0.
+The first arg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis-eval">
+<meta property="og:url" content="http://dangxia.github.io/2015/07/03/redis/redis-eval/index.html">
+<meta property="og:site_name" content="HEXH's Blog">
+<meta property="og:description" content="EVAL script numkeys key [key ...] arg [arg ...]
+Introduction to EVAL
+EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter built into Redis starting from version 2.6.0.
+The first arg">
+<meta property="og:updated_time" content="2016-04-15T14:31:23.994Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis-eval">
+<meta name="twitter:description" content="EVAL script numkeys key [key ...] arg [arg ...]
+Introduction to EVAL
+EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter built into Redis starting from version 2.6.0.
+The first arg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> redis-eval | HEXH's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64562250-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?192da5f5f63c7884ac9970b2d7d49848";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">HEXH's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">面朝大海，春暖花开</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis-eval
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-03T15:15:30+08:00" content="2015-07-03">
+              2015-07-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/03/redis/redis-eval/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/03/redis/redis-eval/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><code>EVAL script numkeys key [key ...] arg [arg ...]</code></p>
+<h2>Introduction to EVAL</h2>
+<p>EVAL and EVALSHA are used to evaluate scripts using the Lua interpreter built into Redis starting from version 2.6.0.<br>
+The first argument of EVAL is a Lua 5.1 script. The script does not need to define a Lua function (and should not). It is just a Lua program that will run in the context of the Redis server.<br>
+The second argument of EVAL is the number of arguments that follows the script (starting from the third argument) that represent Redis key names. This arguments can be accessed by Lua using the KEYS global variable in the form of a one-based array (so KEYS[1], KEYS[2], ...).<br>
+All the additional arguments should not represent key names and can be accessed by Lua using the ARGV global variable, very similarly to what happens with keys (so ARGV[1], ARGV[2], ...).<br>
+The following example should clarify what stated above:<br>
+&gt; eval &quot;return {KEYS[1],KEYS[2],ARGV[1],ARGV[2]}&quot; 2 key1 key2 first second<br>
+1) &quot;key1&quot;<br>
+2) &quot;key2&quot;<br>
+3) &quot;first&quot;<br>
+4) &quot;second&quot;</p>
+<figure class="highlight java"><figcaption><span>jedis</span></figcaption><table><tr><td class="code"><pre><span class="line">Object result = jedis.eval(</span><br><span class="line">    <span class="string">"return &#123;KEYS[1],KEYS[2],ARGV[1],ARGV[2]&#125;"</span>, <span class="number">2</span>, <span class="string">"key1"</span>,</span><br><span class="line">    <span class="string">"key2"</span>, <span class="string">"first"</span>, <span class="string">"second"</span>);</span><br><span class="line">LOG.info(<span class="string">"result class: "</span> + result.getClass().toString());</span><br><span class="line">LOG.info(<span class="string">"result context:"</span> + Joiner.on(<span class="string">","</span>).join((List) result));</span><br></pre></td></tr></table></figure>
+<pre><code>[INFO ] 15:52:19,188  result class: class java.util.ArrayList
+[INFO ] 15:52:19,194  result context:key1,key2,first,second
+</code></pre>
+<p>Note: as you can see Lua arrays are returned as Redis multi bulk replies, that is a Redis return type that your client library will likely convert into an Array type in your programming language.<br>
+It is possible to call Redis commands from a Lua script using two different Lua functions:</p>
+<ul>
+<li>redis.call()</li>
+<li>redis.pcall()</li>
+</ul>
+<p>redis.call() is similar to redis.pcall(), the only difference is that if a Redis command call will result in an error, redis.call() will raise a Lua error that in turn will force EVAL to return an error to the command caller, while redis.pcall will trap the error and return a Lua table representing the error.<br>
+The arguments of the redis.call() and redis.pcall() functions are all the arguments of a well formed Redis command:<br>
+&gt; eval &quot;return redis.call('set','foo','bar')&quot; 0<br>
+OK</p>
+<p>The above script sets the key foo to the string bar. However it violates the EVAL command semantics as all the keys that the script uses should be passed using the KEYS array:<br>
+&gt; eval &quot;return redis.call('set',KEYS[1],'bar')&quot; 1 foo<br>
+OK</p>
+<p>All Redis commands must be analyzed before execution to determine which keys the command will operate on. In order for this to be true for EVAL, keys must be passed explicitly. This is useful in many ways, but <strong>especially to make sure Redis Cluster can forward your request to the appropriate cluster node</strong>.<br>
+Note this rule is not enforced in order to provide the user with opportunities to abuse the Redis single instance configuration, at the cost of writing scripts not compatible with Redis Cluster.<br>
+Lua scripts can return a value that is converted from the Lua type to the Redis protocol using a set of conversion rules.</p>
+<a id="more"></a>
+<h2>Conversion between Lua and Redis data types</h2>
+<p>Redis return values are converted into Lua data types when Lua calls a Redis command using call() or pcall(). Similarly Lua data types are converted into the Redis protocol when a Lua script returns a value, so that scripts can control what EVAL will return to the client.<br>
+This conversion between data types is designed in a way that if a Redis type is converted into a Lua type, and then the result is converted back into a Redis type, the result is the same as the initial value.<br>
+In other words there is a one-to-one conversion between Lua and Redis types. The following table shows you all the conversions rules:<br>
+<strong>Redis to Lua</strong> conversion table.</p>
+<ul>
+<li>Redis integer reply -&gt; Lua number</li>
+<li>Redis bulk reply -&gt; Lua string</li>
+<li>Redis multi bulk reply -&gt; Lua table (may have other Redis data types nested)</li>
+<li>Redis status reply -&gt; Lua table with a single ok field containing the status</li>
+<li>Redis error reply -&gt; Lua table with a single err field containing the error</li>
+<li>Redis Nil bulk reply and Nil multi bulk reply -&gt; Lua false boolean type</li>
+</ul>
+<p><strong>Lua to Redis</strong> conversion table.</p>
+<ul>
+<li>Lua number -&gt; Redis integer reply (<strong>the number is converted into an integer</strong>)</li>
+<li>Lua string -&gt; Redis bulk reply</li>
+<li>Lua table (array) -&gt; Redis multi bulk reply (<strong>truncated to the first nil inside the Lua array if any</strong>)</li>
+<li>Lua table with a single ok field -&gt; Redis status reply</li>
+<li>Lua table with a single err field -&gt; Redis error reply</li>
+<li><strong>Lua boolean false -&gt; Redis Nil bulk reply</strong>.</li>
+</ul>
+<p>There is an additional Lua-to-Redis conversion rule that has no corresponding Redis to Lua conversion rule:</p>
+<ul>
+<li><strong>Lua boolean true -&gt; Redis integer reply with value of 1</strong>.</li>
+</ul>
+<p><strong>Also there are two important rules to note:</strong></p>
+<ul>
+<li>Lua has a single numerical type, Lua numbers. There is no distinction between integers and floats. So we always convert Lua numbers into integer replies, removing the decimal part of the number if any. <strong>If you want to return a float from Lua you should return it as a string</strong>, exactly like Redis itself does (see for instance the ZSCORE command).</li>
+<li>There is no simple way to have nils inside Lua arrays, this is a result of Lua table semantics, so when Redis converts a Lua array into Redis protocol the conversion is stopped if a nil is encountered.</li>
+</ul>
+<p>Here are a few conversion examples:<br>
+&gt; eval &quot;return 10&quot; 0<br>
+(integer) 10</p>
+<pre><code>&gt; eval &quot;return {1,2,{3,'Hello World!'}}&quot; 0
+1) (integer) 1
+2) (integer) 2
+3) 1) (integer) 3
+  2) &quot;Hello World!&quot;
+
+&gt; eval &quot;return redis.call('get','foo')&quot; 0
+&quot;bar&quot;
+</code></pre>
+<p>The last example shows how it is possible to receive the exact return value of redis.call() or redis.pcall() from Lua that would be returned if the command was called directly.<br>
+In the following example we can see how floats and arrays with nils are handled:<br>
+&gt; eval &quot;return {1,2,3.3333,'foo',nil,'bar'}&quot; 0<br>
+1) (integer) 1<br>
+2) (integer) 2<br>
+3) (integer) 3<br>
+4) &quot;foo&quot;</p>
+<p>As you can see 3.333 is converted into 3, and the bar string is never returned as there is a nil before.</p>
+<figure class="highlight java"><figcaption><span>jedis</span></figcaption><table><tr><td class="code"><pre><span class="line">jedis.set(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">displayEvalResult(jedis.eval(<span class="string">"return 10"</span>, <span class="number">0</span>));</span><br><span class="line">displayEvalResult(jedis.eval(<span class="string">"return &#123;1,2,&#123;3,'Hello World!'&#125;&#125;"</span>,</span><br><span class="line">    <span class="number">0</span>));</span><br><span class="line">displayEvalResult(jedis.eval(<span class="string">"return redis.call('get','foo')"</span>,</span><br><span class="line">    <span class="number">0</span>));</span><br><span class="line">displayEvalResult(jedis.eval(</span><br><span class="line">    <span class="string">"return &#123;1,2,3.3333,'foo',nil,'bar'&#125;"</span>, <span class="number">0</span>));</span><br><span class="line">displayEvalResult(jedis.eval(<span class="string">"return true"</span>, <span class="number">0</span>));</span><br><span class="line">displayEvalResult(jedis.eval(<span class="string">"return false"</span>, <span class="number">0</span>));</span><br><span class="line">displayEvalResult(jedis.eval(</span><br><span class="line">    <span class="string">"return redis.call('set','foo','kk')"</span>, <span class="number">0</span>));</span><br></pre></td></tr></table></figure>
+<pre><code>[INFO ] 17:22:26,668  
+result:
+Long:10
+
+[INFO ] 17:22:26,674  
+result:
+[
+  Long:1
+  Long:2
+  [
+    Long:3
+    String:Hello World!
+  ]]
+[INFO ] 17:22:26,679  
+result:
+String:bar
+
+[INFO ] 17:22:26,685  
+result:
+[
+  Long:1
+  Long:2
+  Long:3
+  String:foo
+]
+[INFO ] 17:22:26,690  
+result:
+Long:1
+
+[INFO ] 17:22:26,695  
+result:
+null
+[INFO ] 17:22:26,701  
+result:
+String:OK
+</code></pre>
+<h2>Helper functions to return Redis types</h2>
+<p>There are two helper functions to return Redis types from Lua.</p>
+<ul>
+<li>redis.error_reply(error_string) returns an error reply. This function simply returns the single field table with the err field set to the specified string for you.</li>
+<li>redis.status_reply(status_string) returns a status reply. This function simply returns the single field table with the ok field set to the specified string for you.</li>
+</ul>
+<p>There is no difference between using the helper functions or directly returning the table with the specified format, so the following two forms are equivalent:</p>
+<pre><code>return {err=&quot;My Error&quot;}
+return redis.error_reply(&quot;My Error&quot;)
+</code></pre>
+<figure class="highlight java"><figcaption><span>jedis</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  displayEvalResult(jedis.eval(<span class="string">"return &#123;err='My Error'&#125;"</span>, <span class="number">0</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">  LOG.info(<span class="string">"eval error"</span>, e);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  displayEvalResult(jedis.eval(</span><br><span class="line">      <span class="string">"return redis.error_reply('My Error')"</span>, <span class="number">0</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">  LOG.info(<span class="string">"eval error"</span>, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">displayEvalResult(jedis.eval(</span><br><span class="line">    <span class="string">"return redis.status_reply('success')"</span>, <span class="number">0</span>));</span><br></pre></td></tr></table></figure>
+<pre><code>[INFO ] 17:24:03,405  eval error
+redis.clients.jedis.exceptions.JedisDataException: My Error
+  at redis.clients.jedis.Protocol.processError(Protocol.java:117)
+  at redis.clients.jedis.Protocol.process(Protocol.java:142)
+  at redis.clients.jedis.Protocol.read(Protocol.java:196)
+  at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:288)
+  at redis.clients.jedis.Connection.getOne(Connection.java:270)
+  at redis.clients.jedis.Jedis.getEvalResult(Jedis.java:2642)
+  at redis.clients.jedis.Jedis.eval(Jedis.java:2582)
+  at com.github.dangxia.jedis.JedisEval$3.run(JedisEval.java:59)
+  at com.github.dangxia.jedis.util.JedisUtls.execute(JedisUtls.java:19)
+  at com.github.dangxia.jedis.JedisEval.main(JedisEval.java:17)
+[INFO ] 17:24:03,413  eval error
+redis.clients.jedis.exceptions.JedisDataException: My Error
+  at redis.clients.jedis.Protocol.processError(Protocol.java:117)
+  at redis.clients.jedis.Protocol.process(Protocol.java:142)
+  at redis.clients.jedis.Protocol.read(Protocol.java:196)
+  at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:288)
+  at redis.clients.jedis.Connection.getOne(Connection.java:270)
+  at redis.clients.jedis.Jedis.getEvalResult(Jedis.java:2642)
+  at redis.clients.jedis.Jedis.eval(Jedis.java:2582)
+  at com.github.dangxia.jedis.JedisEval$3.run(JedisEval.java:64)
+  at com.github.dangxia.jedis.util.JedisUtls.execute(JedisUtls.java:19)
+  at com.github.dangxia.jedis.JedisEval.main(JedisEval.java:17)
+[INFO ] 17:24:03,419  
+result:
+String:success
+</code></pre>
+<h2>Atomicity of scripts</h2>
+<p>Redis uses the same Lua interpreter to run all the commands. Also Redis guarantees that a script is executed in an atomic way: no other script or Redis command will be executed while a script is being executed. This semantic is similar to the one of MULTI / EXEC. From the point of view of all the other clients the effects of a script are either still not visible or already completed.<br>
+However this also means that executing slow scripts is not a good idea. It is not hard to create fast scripts, as the script overhead is very low, but if you are going to use slow scripts you should be aware that while the script is running no other client can execute commands.</p>
+<h2>Error handling</h2>
+<p>As already stated, calls to redis.call() resulting in a Redis command error will stop the execution of the script and return an error, in a way that makes it obvious that the error was generated by a script:<br>
+&gt; del foo<br>
+(integer) 1<br>
+&gt; lpush foo a<br>
+(integer) 1<br>
+&gt; eval &quot;return redis.call('get','foo')&quot; 0<br>
+(error) ERR Error running script (call to f_6b1bf486c81ceb7edf3c093f4c48582e38c0e791): ERR Operation against a key holding the wrong kind of value</p>
+<p>Using redis.pcall() no error is raised, but an error object is returned in the format specified above (as a Lua table with an err field). The script can pass the exact error to the user by returning the error object returned by redis.pcall().</p>
+<figure class="highlight java"><figcaption><span>jedis</span></figcaption><table><tr><td class="code"><pre><span class="line">jedis.del(<span class="string">"foo"</span>);</span><br><span class="line">jedis.lpush(<span class="string">"foo"</span>, <span class="string">"a"</span>);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  displayEvalResult(jedis.eval(</span><br><span class="line">      <span class="string">"return redis.call('get','foo')"</span>, <span class="number">0</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">  LOG.info(<span class="string">"eval error"</span>, e);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  displayEvalResult(jedis.eval(</span><br><span class="line">      <span class="string">"return redis.pcall('get','foo')"</span>, <span class="number">0</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">  LOG.info(<span class="string">"eval error"</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>[INFO ] 17:25:44,028  eval error
+redis.clients.jedis.exceptions.JedisDataException: ERR Error running script (call to f_6b1bf486c81ceb7edf3c093f4c48582e38c0e791): @user_script:1: WRONGTYPE Operation against a key holding the wrong kind of value 
+  at redis.clients.jedis.Protocol.processError(Protocol.java:117)
+  at redis.clients.jedis.Protocol.process(Protocol.java:142)
+  at redis.clients.jedis.Protocol.read(Protocol.java:196)
+  at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:288)
+  at redis.clients.jedis.Connection.getOne(Connection.java:270)
+  at redis.clients.jedis.Jedis.getEvalResult(Jedis.java:2642)
+  at redis.clients.jedis.Jedis.eval(Jedis.java:2582)
+  at com.github.dangxia.jedis.JedisEval$4.run(JedisEval.java:84)
+  at com.github.dangxia.jedis.util.JedisUtls.execute(JedisUtls.java:19)
+  at com.github.dangxia.jedis.JedisEval.main(JedisEval.java:17)
+[INFO ] 17:25:44,036  eval error
+redis.clients.jedis.exceptions.JedisDataException: WRONGTYPE Operation against a key holding the wrong kind of value
+  at redis.clients.jedis.Protocol.processError(Protocol.java:117)
+  at redis.clients.jedis.Protocol.process(Protocol.java:142)
+  at redis.clients.jedis.Protocol.read(Protocol.java:196)
+  at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:288)
+  at redis.clients.jedis.Connection.getOne(Connection.java:270)
+  at redis.clients.jedis.Jedis.getEvalResult(Jedis.java:2642)
+  at redis.clients.jedis.Jedis.eval(Jedis.java:2582)
+  at com.github.dangxia.jedis.JedisEval$4.run(JedisEval.java:90)
+  at com.github.dangxia.jedis.util.JedisUtls.execute(JedisUtls.java:19)
+  at com.github.dangxia.jedis.JedisEval.main(JedisEval.java:17)
+</code></pre>
+<h2>Bandwidth and EVALSHA</h2>
+<p>The EVAL command forces you to send the script body again and again. Redis does not need to recompile the script every time as it uses an internal caching mechanism, however paying the cost of the additional bandwidth may not be optimal in many contexts.<br>
+On the other hand, defining commands using a special command or via redis.conf would be a problem for a few reasons:</p>
+<ul>
+<li>Different instances may have different implementations of a command.</li>
+<li>Deployment is hard if we have to make sure all instances contain a given command, especially in a distributed environment.</li>
+<li>Reading application code, the complete semantics might not be clear since the application calls commands defined server side.</li>
+</ul>
+<p>In order to avoid these problems while avoiding the bandwidth penalty, Redis implements the EVALSHA command.<br>
+EVALSHA works exactly like EVAL, but instead of having a script as the first argument it has the SHA1 digest of a script. The behavior is the following:</p>
+<ul>
+<li>If the server still remembers a script with a matching SHA1 digest, the script is executed.</li>
+<li>If the server does not remember a script with this SHA1 digest, a special error is returned telling the client to use EVAL instead.</li>
+</ul>
+<p>Example:<br>
+&gt; set foo bar<br>
+OK<br>
+&gt; eval &quot;return redis.call('get','foo')&quot; 0<br>
+&quot;bar&quot;<br>
+&gt; evalsha 6b1bf486c81ceb7edf3c093f4c48582e38c0e791 0<br>
+&quot;bar&quot;<br>
+&gt; evalsha ffffffffffffffffffffffffffffffffffffffff 0<br>
+(error) <code>NOSCRIPT</code> No matching script. Please use <a href="/commands/eval">EVAL</a>.</p>
+<p>The client library implementation can always optimistically send EVALSHA under the hood even when the client actually calls EVAL, in the hope the script was already seen by the server. If the NOSCRIPT error is returned EVAL will be used instead.<br>
+Passing keys and arguments as additional EVAL arguments is also very useful in this context as the script string remains constant and can be efficiently cached by Redis.</p>
+<figure class="highlight java"><figcaption><span>jedis</span></figcaption><table><tr><td class="code"><pre><span class="line">jedis.del(<span class="string">"foo"</span>);</span><br><span class="line">jedis.set(<span class="string">"foo"</span>, <span class="string">"bar"</span>);</span><br><span class="line">displayEvalResult(jedis.eval(<span class="string">"return redis.sha1hex(ARGV[1])"</span>,</span><br><span class="line">    <span class="number">0</span>, <span class="string">"return redis.call('get','foo')"</span>));</span><br><span class="line">displayEvalResult(jedis.eval(<span class="string">"return redis.call('get','foo')"</span>,</span><br><span class="line">    <span class="number">0</span>));</span><br><span class="line">displayEvalResult(jedis</span><br><span class="line">    .evalsha(<span class="string">"6b1bf486c81ceb7edf3c093f4c48582e38c0e791"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  displayEvalResult(jedis</span><br><span class="line">      .evalsha(<span class="string">"ffffffffffffffffffffffffffffffffffffffff"</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">  LOG.info(<span class="string">"eval error"</span>, e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>[INFO ] 17:33:19,003  
+result:
+String:6b1bf486c81ceb7edf3c093f4c48582e38c0e791
+
+[INFO ] 17:33:19,009  
+result:
+String:bar
+
+[INFO ] 17:33:19,014  
+result:
+String:bar
+
+[INFO ] 17:33:19,020  eval error
+redis.clients.jedis.exceptions.JedisDataException: NOSCRIPT No matching script. Please use EVAL.
+  at redis.clients.jedis.Protocol.processError(Protocol.java:117)
+  at redis.clients.jedis.Protocol.process(Protocol.java:142)
+  at redis.clients.jedis.Protocol.read(Protocol.java:196)
+  at redis.clients.jedis.Connection.readProtocolWithCheckingBroken(Connection.java:288)
+  at redis.clients.jedis.Connection.getOne(Connection.java:270)
+  at redis.clients.jedis.Jedis.getEvalResult(Jedis.java:2642)
+  at redis.clients.jedis.Jedis.evalsha(Jedis.java:2668)
+  at redis.clients.jedis.Jedis.evalsha(Jedis.java:2638)
+  at com.github.dangxia.jedis.JedisEval$5.run(JedisEval.java:115)
+  at com.github.dangxia.jedis.util.JedisUtls.execute(JedisUtls.java:19)
+  at com.github.dangxia.jedis.JedisEval.main(JedisEval.java:17)
+</code></pre>
+<h2>Script cache semantics</h2>
+<p>Executed scripts are guaranteed to be in the script cache of a given execution of a Redis instance forever. This means that if an EVAL is performed against a Redis instance all the subsequent EVALSHA calls will succeed.<br>
+The reason why scripts can be cached for long time is that it is unlikely for a well written application to have enough different scripts to cause memory problems. Every script is conceptually like the implementation of a new command, and even a large application will likely have just a few hundred of them. Even if the application is modified many times and scripts will change, the memory used is negligible.<br>
+The only way to flush the script cache is by explicitly calling the SCRIPT FLUSH command, which will completely flush the scripts cache removing all the scripts executed so far.<br>
+This is usually needed only when the instance is going to be instantiated for another customer or application in a cloud environment.<br>
+Also, as already mentioned, restarting a Redis instance flushes the script cache, which is not persistent. However from the point of view of the client there are only two ways to make sure a Redis instance was not restarted between two different commands.</p>
+<ul>
+<li>The connection we have with the server is persistent and was never closed so far.</li>
+<li>The client explicitly checks the runid field in the INFO command in order to make sure the server was not restarted and is still the same process.</li>
+</ul>
+<p>Practically speaking, for the client it is much better to simply assume that in the context of a given connection, cached scripts are guaranteed to be there unless an administrator explicitly called the SCRIPT FLUSH command.<br>
+The fact that the user can count on Redis not removing scripts is semantically useful in the context of pipelining.<br>
+For instance an application with a persistent connection to Redis can be sure that if a script was sent once it is still in memory, so EVALSHA can be used against those scripts in a pipeline without the chance of an error being generated due to an unknown script (we'll see this problem in detail later).<br>
+A common pattern is to call SCRIPT LOAD to load all the scripts that will appear in a pipeline, then use EVALSHA directly inside the pipeline without any need to check for errors resulting from the script hash not being recognized.</p>
+<h2>The SCRIPT command</h2>
+<p>Redis offers a SCRIPT command that can be used in order to control the scripting subsystem. SCRIPT currently accepts three different commands:</p>
+<ul>
+<li>SCRIPT FLUSH. This command is the only way to force Redis to flush the scripts cache. It is most useful in a cloud environment where the same instance can be reassigned to a different user. It is also useful for testing client libraries' implementations of the scripting feature.</li>
+<li>SCRIPT EXISTS sha1 sha2... shaN. Given a list of SHA1 digests as arguments this command returns an array of 1 or 0, where 1 means the specific SHA1 is recognized as a script already present in the scripting cache, while 0 means that a script with this SHA1 was never seen before (or at least never seen after the latest SCRIPT FLUSH command).</li>
+<li>SCRIPT LOAD script. This command registers the specified script in the Redis script cache. The command is useful in all the contexts where we want to make sure that EVALSHA will not fail (for instance during a pipeline or MULTI/EXEC operation), without the need to actually execute the script.</li>
+<li>SCRIPT KILL. This command is the only way to interrupt a long-running script that reaches the configured maximum execution time for scripts. The SCRIPT KILL command can only be used with scripts that did not modify the dataset during their execution (since stopping a read-only script does not violate the scripting engine's guaranteed atomicity). See the next sections for more information about long running scripts.</li>
+</ul>
+<figure class="highlight java"><figcaption><span>jedis</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">final</span> String script_sha1 = <span class="string">"6b1bf486c81ceb7edf3c093f4c48582e38c0e791"</span>;</span><br><span class="line">LOG.info(<span class="string">"script flush: "</span> + jedis.scriptFlush());</span><br><span class="line">LOG.info(</span><br><span class="line">    <span class="string">"script &#123;&#125; exists: "</span> + jedis.scriptExists(script_sha1),</span><br><span class="line">    script_sha1);</span><br><span class="line">LOG.info(<span class="string">"script load: "</span></span><br><span class="line">    + jedis.scriptLoad(<span class="string">"return redis.call('get','foo')"</span>));</span><br><span class="line">LOG.info(</span><br><span class="line">    <span class="string">"script &#123;&#125; exists: "</span> + jedis.scriptExists(script_sha1),</span><br><span class="line">    script_sha1);</span><br><span class="line">LOG.info(<span class="string">"script flush: "</span> + jedis.scriptFlush());</span><br><span class="line">LOG.info(</span><br><span class="line">    <span class="string">"script &#123;&#125; exists: "</span> + jedis.scriptExists(script_sha1),</span><br><span class="line">    script_sha1);</span><br></pre></td></tr></table></figure>
+<pre><code>[INFO ] 17:40:54,310  script flush: OK
+[INFO ] 17:40:54,318  script 6b1bf486c81ceb7edf3c093f4c48582e38c0e791 exists: false
+[INFO ] 17:40:54,326  script load: 6b1bf486c81ceb7edf3c093f4c48582e38c0e791
+[INFO ] 17:40:54,331  script 6b1bf486c81ceb7edf3c093f4c48582e38c0e791 exists: true
+[INFO ] 17:40:54,337  script flush: OK
+[INFO ] 17:40:54,342  script 6b1bf486c81ceb7edf3c093f4c48582e38c0e791 exists: false
+</code></pre>
+<h2>Scripts as pure functions</h2>
+<p>A very important part of scripting is writing scripts that are pure functions. Scripts executed in a Redis instance are replicated on slaves by sending the script -- not the resulting commands. The same happens for the Append Only File. The reason is that sending a script to another Redis instance is much faster than sending the multiple commands the script generates, so if the client is sending many scripts to the master, converting the scripts into individual commands for the slave / AOF would result in too much bandwidth for the replication link or the Append Only File (and also too much CPU since dispatching a command received via network is a lot more work for Redis compared to dispatching a command invoked by Lua scripts).<br>
+The only drawback with this approach is that scripts are required to have the following property:</p>
+<ul>
+<li>The script always evaluates the same Redis write commands with the same arguments given the same input data set. Operations performed by the script cannot depend on any hidden (non-explicit) information or state that may change as script execution proceeds or between different executions of the script, nor can it depend on any external input from I/O devices.</li>
+</ul>
+<p>Things like using the system time, calling Redis random commands like RANDOMKEY, or using Lua random number generator, could result into scripts that will not always evaluate in the same way.<br>
+In order to enforce this behavior in scripts Redis does the following:</p>
+<ul>
+<li>Lua does not export commands to access the system time or other external state.</li>
+<li>Redis will block the script with an error if a script calls a Redis command able to alter the data set after a Redis random command like RANDOMKEY, SRANDMEMBER, TIME. This means that if a script is read-only and does not modify the data set it is free to call those commands. Note that a random command does not necessarily mean a command that uses random numbers: any non-deterministic command is considered a random command (the best example in this regard is the TIME command).</li>
+<li>Redis commands that may return elements in random order, like SMEMBERS (because Redis Sets are unordered) have a different behavior when called from Lua, and undergo a silent lexicographical sorting filter before returning data to Lua scripts. So redis.call(&quot;smembers&quot;,KEYS[1]) will always return the Set elements in the same order, while the same command invoked from normal clients may return different results even if the key contains exactly the same elements.</li>
+<li>Lua pseudo random number generation functions math.random and math.randomseed are modified in order to always have the same seed every time a new script is executed. This means that calling math.random will always generate the same sequence of numbers every time a script is executed if math.randomseed is not used.</li>
+</ul>
+<p>However the user is still able to write commands with random behavior using the following simple trick. Imagine I want to write a Redis script that will populate a list with N random integers.<br>
+I can start with this small Ruby program:</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line"><span class="keyword">require</span> <span class="string">'rubygems'</span></span><br><span class="line"><span class="keyword">require</span> <span class="string">'redis'</span></span><br><span class="line"></span><br><span class="line">r = Redis.new</span><br><span class="line"></span><br><span class="line">RandomPushScript = &lt;&lt;EOF</span><br><span class="line">    local i = tonumber(ARGV[<span class="number">1</span>])</span><br><span class="line">    local res</span><br><span class="line">    <span class="keyword">while</span> (i &gt; <span class="number">0</span>) <span class="keyword">do</span></span><br><span class="line">        res = redis.call(<span class="string">'lpush'</span>,KEYS[<span class="number">1</span>],math.random())</span><br><span class="line">        i = i-<span class="number">1</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">r.del(<span class="symbol">:mylist</span>)</span><br><span class="line">puts r.eval(RandomPushScript,[<span class="symbol">:mylist</span>],[<span class="number">10</span>,rand(<span class="number">2</span>**<span class="number">32</span>)])</span><br></pre></td></tr></table></figure>
+<p>Every time this script executed the resulting list will have exactly the following elements:<br>
+&gt; lrange mylist 0 -1<br>
+1) &quot;0.74509509873814&quot;<br>
+2) &quot;0.87390407681181&quot;<br>
+3) &quot;0.36876626981831&quot;<br>
+4) &quot;0.6921941534114&quot;<br>
+5) &quot;0.7857992587545&quot;<br>
+6) &quot;0.57730350670279&quot;<br>
+7) &quot;0.87046522734243&quot;<br>
+8) &quot;0.09637165539729&quot;<br>
+9) &quot;0.74990198051087&quot;<br>
+10) &quot;0.17082803611217&quot;</p>
+<p>In order to make it a pure function, but still be sure that every invocation of the script will result in different random elements, we can simply add an additional argument to the script that will be used in order to seed the Lua pseudo-random number generator. The new script is as follows:</p>
+<pre><code>RandomPushScript = &lt;&lt;EOF
+  local i = tonumber(ARGV[1])
+  local res
+  math.randomseed(tonumber(ARGV[2]))
+  while (i &gt; 0) do
+      res = redis.call('lpush',KEYS[1],math.random())
+      i = i-1
+  end
+  return res
+EOF
+
+r.del(:mylist)
+puts r.eval(RandomPushScript,1,:mylist,10,rand(2**32))
+</code></pre>
+<p>What we are doing here is sending the seed of the PRNG as one of the arguments. This way the script output will be the same given the same arguments, but we are changing one of the arguments in every invocation, generating the random seed client-side. The seed will be propagated as one of the arguments both in the replication link and in the Append Only File, guaranteeing that the same changes will be generated when the AOF is reloaded or when the slave processes the script.<br>
+Note: an important part of this behavior is that the PRNG that Redis implements as math.random and math.randomseed is guaranteed to have the same output regardless of the architecture of the system running Redis. 32-bit, 64-bit, big-endian and little-endian systems will all produce the same output.</p>
+<h2>Global variables protection</h2>
+<p>Redis scripts are not allowed to create global variables, in order to avoid leaking data into the Lua state. If a script needs to maintain state between calls (a pretty uncommon need) it should use Redis keys instead.<br>
+When global variable access is attempted the script is terminated and EVAL returns with an error:</p>
+<pre><code>redis 127.0.0.1:6379&gt; eval 'a=10' 0
+(error) ERR Error running script (call to f_933044db579a2f8fd45d8065f04a8d0249383e57): user_script:1: Script attempted to create global variable 'a'
+</code></pre>
+<p>Accessing a non existing global variable generates a similar error.<br>
+Using Lua debugging functionality or other approaches like altering the meta table used to implement global protections in order to circumvent globals protection is not hard. However it is difficult to do it accidentally. If the user messes with the Lua global state, the consistency of AOF and replication is not guaranteed: don't do it.<br>
+Note for Lua newbies: in order to avoid using global variables in your scripts simply declare every variable you are going to use using the local keyword.</p>
+<h2>Using SELECT inside scripts</h2>
+<p>It is possible to call SELECT inside Lua scripts like with normal clients, However one subtle aspect of the behavior changes between Redis 2.8.11 and Redis 2.8.12. Before the 2.8.12 release the database selected by the Lua script was transferred to the calling script as current database. Starting from Redis 2.8.12 the database selected by the Lua script only affects the execution of the script itself, but does not modify the database selected by the client calling the script.<br>
+The semantic change between patch level releases was needed since the old behavior was inherently incompatible with the Redis replication layer and was the cause of bugs.</p>
+<h2>Available libraries</h2>
+<p>The Redis Lua interpreter loads the following Lua libraries:</p>
+<ul>
+<li>base lib.</li>
+<li>table lib.</li>
+<li>string lib.</li>
+<li>math lib.</li>
+<li>debug lib.</li>
+<li>struct lib.</li>
+<li>cjson lib.</li>
+<li>cmsgpack lib.</li>
+<li>bitop lib</li>
+<li>redis.sha1hex function.</li>
+</ul>
+<p>Every Redis instance is guaranteed to have all the above libraries so you can be sure that the environment for your Redis scripts is always the same.<br>
+struct, CJSON and cmsgpack are external libraries, all the other libraries are standard Lua libraries.</p>
+<h3>struct</h3>
+<p>struct is a library for packing/unpacking structures within Lua.<br>
+Valid formats:<br>
+&gt; - big endian<br>
+&lt; - little endian<br>
+![num] - alignment<br>
+x - pading<br>
+b/B - signed/unsigned byte<br>
+h/H - signed/unsigned short<br>
+l/L - signed/unsigned long<br>
+T   - size_t<br>
+i/In - signed/unsigned integer with size <code>n' (default is size of int) cn - sequence of</code>n' chars (from/to a string); when packing, n==0 means<br>
+the whole string; when unpacking, n==0 means use the previous<br>
+read number as the string length<br>
+s - zero-terminated string<br>
+f - float<br>
+d - double<br>
+' ' - ignored</p>
+<p>Example:</p>
+<pre><code>127.0.0.1:6379&gt; eval 'return struct.pack(&quot;HH&quot;, 1, 2)' 0
+&quot;\x01\x00\x02\x00&quot;
+127.0.0.1:6379&gt; eval 'return {struct.unpack(&quot;HH&quot;, ARGV[1])}' 0 &quot;\x01\x00\x02\x00&quot;
+1) (integer) 1
+2) (integer) 2
+3) (integer) 5
+127.0.0.1:6379&gt; eval 'return struct.size(&quot;HH&quot;)' 0
+(integer) 4
+</code></pre>
+<h3>CJSON</h3>
+<p>The CJSON library provides extremely fast JSON manipulation within Lua.<br>
+Example:</p>
+<pre><code>redis 127.0.0.1:6379&gt; eval 'return cjson.encode({[&quot;foo&quot;]= &quot;bar&quot;})' 0
+&quot;{\&quot;foo\&quot;:\&quot;bar\&quot;}&quot;
+redis 127.0.0.1:6379&gt; eval 'return cjson.decode(ARGV[1])[&quot;foo&quot;]' 0 &quot;{\&quot;foo\&quot;:\&quot;bar\&quot;}&quot;
+&quot;bar&quot;
+</code></pre>
+<h3>cmsgpack</h3>
+<p>The cmsgpack library provides simple and fast MessagePack manipulation within Lua.<br>
+Example:</p>
+<pre><code>127.0.0.1:6379&gt; eval 'return cmsgpack.pack({&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;})' 0
+&quot;\x93\xa3foo\xa3bar\xa3baz&quot;
+127.0.0.1:6379&gt; eval 'return cmsgpack.unpack(ARGV[1])' 0 &quot;\x93\xa3foo\xa3bar\xa3baz&quot;
+1) &quot;foo&quot;
+2) &quot;bar&quot;
+3) &quot;baz&quot;
+</code></pre>
+<h3>bitop</h3>
+<p>The Lua Bit Operations Module adds bitwise operations on numbers. It is available for scripting in Redis since version 2.8.18.<br>
+Example:</p>
+<pre><code>127.0.0.1:6379&gt; eval 'return bit.tobit(1)' 0
+(integer) 1
+127.0.0.1:6379&gt; eval 'return bit.bor(1,2,4,8,16,32,64,128)' 0
+(integer) 255
+127.0.0.1:6379&gt; eval 'return bit.tohex(422342)' 0
+&quot;000671c6&quot;
+</code></pre>
+<p>It supports several other functions: bit.tobit, bit.tohex, bit.bnot, bit.band, bit.bor, bit.bxor, bit.lshift, bit.rshift, bit.arshift, bit.rol, bit.ror, bit.bswap. All available functions are documented in the Lua BitOp documentation</p>
+<h3>redis.sha1hex</h3>
+<p>Perform the SHA1 of the input string.<br>
+Example:</p>
+<pre><code>127.0.0.1:6379&gt; eval 'return redis.sha1hex(ARGV[1])' 0 &quot;foo&quot;
+&quot;0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33&quot;
+</code></pre>
+<h3>Emitting Redis logs from scripts</h3>
+<p>It is possible to write to the Redis log file from Lua scripts using the redis.log function.</p>
+<pre><code>redis.log(loglevel,message)
+</code></pre>
+<p>loglevel is one of:</p>
+<ul>
+<li>redis.LOG_DEBUG</li>
+<li>redis.LOG_VERBOSE</li>
+<li>redis.LOG_NOTICE</li>
+<li>redis.LOG_WARNING</li>
+</ul>
+<p>They correspond directly to the normal Redis log levels. Only logs emitted by scripting using a log level that is equal or greater than the currently configured Redis instance log level will be emitted.<br>
+The message argument is simply a string. Example:</p>
+<pre><code>redis.log(redis.LOG_WARNING,&quot;Something is wrong with this script.&quot;)
+</code></pre>
+<p>Will generate the following:</p>
+<pre><code>[32343] 22 Mar 15:21:39 # Something is wrong with this script.
+</code></pre>
+<h2>Sandbox and maximum execution time</h2>
+<p>Scripts should never try to access the external system, like the file system or any other system call. A script should only operate on Redis data and passed arguments.<br>
+Scripts are also subject to a maximum execution time (five seconds by default). This default timeout is huge since a script should usually run in under a millisecond. The limit is mostly to handle accidental infinite loops created during development.<br>
+It is possible to modify the maximum time a script can be executed with millisecond precision, either via redis.conf or using the CONFIG GET / CONFIG SET command. The configuration parameter affecting max execution time is called lua-time-limit.<br>
+When a script reaches the timeout it is not automatically terminated by Redis since this violates the contract Redis has with the scripting engine to ensure that scripts are atomic. Interrupting a script means potentially leaving the dataset with half-written data. For this reasons when a script executes for more than the specified time the following happens:</p>
+<ul>
+<li>Redis logs that a script is running too long.</li>
+<li>It starts accepting commands again from other clients, but will reply with a BUSY error to all the clients sending normal commands. The only allowed commands in this status are SCRIPT KILL and SHUTDOWN NOSAVE.</li>
+<li>It is possible to terminate a script that executes only read-only commands using the SCRIPT KILL command. This does not violate the scripting semantic as no data was yet written to the dataset by the script.</li>
+<li>If the script already called write commands the only allowed command becomes SHUTDOWN NOSAVE that stops the server without saving the current data set on disk (basically the server is aborted).</li>
+</ul>
+<h2>EVALSHA in the context of pipelining</h2>
+<p>Care should be taken when executing EVALSHA in the context of a pipelined request, since even in a pipeline the order of execution of commands must be guaranteed. If EVALSHA will return a NOSCRIPT error the command can not be reissued later otherwise the order of execution is violated.<br>
+The client library implementation should take one of the following approaches:</p>
+<ul>
+<li>Always use plain EVAL when in the context of a pipeline.</li>
+<li>Accumulate all the commands to send into the pipeline, then check for EVAL commands and use the SCRIPT EXISTS command to check if all the scripts are already defined. If not, add SCRIPT LOAD commands on top of the pipeline as required, and use EVALSHA for all the EVAL calls.</li>
+</ul>
+<h2>Related commands</h2>
+<ul>
+<li><a href="http://redis.io/commands/eval" target="_blank" rel="external">EVAL</a></li>
+<li><a href="http://redis.io/commands/evalsha" target="_blank" rel="external">EVALSHA</a></li>
+<li><a href="http://redis.io/commands/script-exists" target="_blank" rel="external">SCRIPT EXISTS</a></li>
+<li><a href="http://redis.io/commands/script-flush" target="_blank" rel="external">SCRIPT FLUSH</a></li>
+<li><a href="http://redis.io/commands/script-kill" target="_blank" rel="external">SCRIPT KILL</a></li>
+<li><a href="http://redis.io/commands/script-load" target="_blank" rel="external">SCRIPT LOAD</a></li>
+</ul>
+<h2>备注</h2>
+<p>eval KEYS,ARGV的下标从1开始。</p>
+<h2>copy from</h2>
+<ul>
+<li><a href="http://redis.io/commands/eval" target="_blank" rel="external">http://redis.io/commands/eval</a></li>
+</ul>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag">#redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/03/redis/redis-transactions/" rel="next" title="redis-transactions">
+                <i class="fa fa-chevron-left"></i> redis-transactions
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/09/eclipse/eclipse-modify-tab-ui/" rel="prev" title="eclipse modify tab ui">
+                eclipse modify tab ui <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/03/redis/redis-eval/"
+           data-title="redis-eval" data-url="http://dangxia.github.io/2015/07/03/redis/redis-eval/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/logo.svg"
+               alt="Xuehui He" />
+          <p class="site-author-name" itemprop="name">Xuehui He</p>
+          <p class="site-description motion-element" itemprop="description">面朝大海，春暖花开</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">83</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dangxia" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Introduction to EVAL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Conversion between Lua and Redis data types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">Helper functions to return Redis types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Atomicity of scripts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">Error handling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">6.</span> <span class="nav-text">Bandwidth and EVALSHA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">7.</span> <span class="nav-text">Script cache semantics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">8.</span> <span class="nav-text">The SCRIPT command</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">9.</span> <span class="nav-text">Scripts as pure functions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">10.</span> <span class="nav-text">Global variables protection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">11.</span> <span class="nav-text">Using SELECT inside scripts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">12.</span> <span class="nav-text">Available libraries</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">12.1.</span> <span class="nav-text">struct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">12.2.</span> <span class="nav-text">CJSON</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">12.3.</span> <span class="nav-text">cmsgpack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">12.4.</span> <span class="nav-text">bitop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">12.5.</span> <span class="nav-text">redis.sha1hex</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">12.6.</span> <span class="nav-text">Emitting Redis logs from scripts</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">13.</span> <span class="nav-text">Sandbox and maximum execution time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">14.</span> <span class="nav-text">EVALSHA in the context of pipelining</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">15.</span> <span class="nav-text">Related commands</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">16.</span> <span class="nav-text">备注</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">17.</span> <span class="nav-text">copy from</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui He</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+  
+  <script type="text/javascript" src="/english.js"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xuehuihe-java"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

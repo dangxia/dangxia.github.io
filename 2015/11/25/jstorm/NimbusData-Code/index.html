@@ -1,0 +1,688 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="J07Rx2NjTiwjIyxdGuCALSCM2Kzq294kYmnj1f4Izoc" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/fonts/fonts.css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jstorm," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HEXH's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="属性
+
+downloaders,uploaders
+
+// TODO two kind of value:Channel/BufferFileInputStreamprivate TimeCacheMap&amp;lt;Object, Object&amp;gt; downloaders;private TimeCacheMap&amp;lt;Object, Object&amp;gt; uploaders;/*** Durin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NimbusData源码">
+<meta property="og:url" content="http://dangxia.github.io/2015/11/25/jstorm/NimbusData-Code/index.html">
+<meta property="og:site_name" content="HEXH's Blog">
+<meta property="og:description" content="属性
+
+downloaders,uploaders
+
+// TODO two kind of value:Channel/BufferFileInputStreamprivate TimeCacheMap&amp;lt;Object, Object&amp;gt; downloaders;private TimeCacheMap&amp;lt;Object, Object&amp;gt; uploaders;/*** Durin">
+<meta property="og:updated_time" content="2016-04-15T14:31:23.990Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NimbusData源码">
+<meta name="twitter:description" content="属性
+
+downloaders,uploaders
+
+// TODO two kind of value:Channel/BufferFileInputStreamprivate TimeCacheMap&amp;lt;Object, Object&amp;gt; downloaders;private TimeCacheMap&amp;lt;Object, Object&amp;gt; uploaders;/*** Durin">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> NimbusData源码 | HEXH's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64562250-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?192da5f5f63c7884ac9970b2d7d49848";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">HEXH's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">面朝大海，春暖花开</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                NimbusData源码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-25T14:46:49+08:00" content="2015-11-25">
+              2015-11-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/jstorm/" itemprop="url" rel="index">
+                    <span itemprop="name">jstorm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/25/jstorm/NimbusData-Code/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/25/jstorm/NimbusData-Code/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3>属性</h3>
+<ul>
+<li>downloaders,uploaders</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// TODO two kind of value:Channel/BufferFileInputStream</span></span><br><span class="line"><span class="keyword">private</span> TimeCacheMap&lt;Object, Object&gt; downloaders;</span><br><span class="line"><span class="keyword">private</span> TimeCacheMap&lt;Object, Object&gt; uploaders;</span><br><span class="line"><span class="comment">/**</span><br><span class="line">* During upload/download with the master, how long an upload or download connection is idle before nimbus considers it dead and drops the connection.</span><br><span class="line">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NIMBUS_FILE_COPY_EXPIRATION_SECS = <span class="string">"nimbus.file.copy.expiration.secs"</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>submittedCount</li>
+<li>stormClusterState ==&gt; com.alibaba.jstorm.cluster.StormClusterState</li>
+<li>statusTransition</li>
+</ul>
+<h3>StormClusterState</h3>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">disconnect</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove_storm</span><span class="params">(String topology_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">try_remove_storm</span><span class="params">(String topology_id)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">assignments</span><span class="params">(RunnableCallback callback)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Assignment <span class="title">assignment_info</span><span class="params">(String topology_id, RunnableCallback callback)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set_assignment</span><span class="params">(String topology_id, Assignment info)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> AssignmentBak <span class="title">assignment_bak</span><span class="params">(String topologyName)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">backup_assignment</span><span class="params">(String topology_id, AssignmentBak info)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">active_storms</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> StormBase <span class="title">storm_base</span><span class="params">(String topology_id, RunnableCallback callback)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">activate_storm</span><span class="params">(String topology_id, StormBase storm_base)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update_storm</span><span class="params">(String topology_id, StormStatus new_elems)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set_storm_monitor</span><span class="params">(String topologyId, <span class="keyword">boolean</span> isEnable)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove_storm_base</span><span class="params">(String topology_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">task_storms</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Set&lt;Integer&gt; <span class="title">task_ids</span><span class="params">(String topology_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Set&lt;Integer&gt; <span class="title">task_ids_by_componentId</span><span class="params">(String topologyId, String componentId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set_task</span><span class="params">(String topologyId, Map&lt;Integer, TaskInfo&gt; taskInfoMap)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add_task</span><span class="params">(String topology_id, Map&lt;Integer, TaskInfo&gt; taskInfoMap)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove_task</span><span class="params">(String topologyId, Set&lt;Integer&gt; taskIds)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;Integer, TaskInfo&gt; <span class="title">task_all_info</span><span class="params">(String topology_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">heartbeat_storms</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">topology_heartbeat</span><span class="params">(String topology_id, TopologyTaskHbInfo info)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> TopologyTaskHbInfo <span class="title">topology_heartbeat</span><span class="params">(String topologyId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">teardown_heartbeats</span><span class="params">(String topology_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">task_error_storms</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">task_error_ids</span><span class="params">(String topologyId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">report_task_error</span><span class="params">(String topology_id, <span class="keyword">int</span> task_id, Throwable error)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">report_task_error</span><span class="params">(String topology_id, <span class="keyword">int</span> task_id, String error, String tag)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;Integer, String&gt; <span class="title">topo_lastErr_time</span><span class="params">(String topologyId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove_lastErr_time</span><span class="params">(String topologyId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;TaskError&gt; <span class="title">task_errors</span><span class="params">(String topology_id, <span class="keyword">int</span> task_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove_task_error</span><span class="params">(String topologyId, <span class="keyword">int</span> taskId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">task_error_time</span><span class="params">(String topologyId, <span class="keyword">int</span> taskId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">task_error_info</span><span class="params">(String topologyId, <span class="keyword">int</span> taskId, <span class="keyword">long</span> timeStamp)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">teardown_task_errors</span><span class="params">(String topology_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">supervisors</span><span class="params">(RunnableCallback callback)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> SupervisorInfo <span class="title">supervisor_info</span><span class="params">(String supervisor_id)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">supervisor_heartbeat</span><span class="params">(String supervisor_id, SupervisorInfo info)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">try_to_be_leader</span><span class="params">(String path, String host, RunnableCallback callback)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">get_leader_host</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">leader_existed</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">get_nimbus_slaves</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update_nimbus_slave</span><span class="params">(String host, <span class="keyword">int</span> time)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">get_nimbus_slave_time</span><span class="params">(String host)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregister_nimbus_host</span><span class="params">(String host)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update_nimbus_detail</span><span class="params">(String hostPort, Map map)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Map <span class="title">get_nimbus_detail</span><span class="params">(String hostPort, <span class="keyword">boolean</span> watch)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unregister_nimbus_detail</span><span class="params">(String hostPort)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set_topology_metric</span><span class="params">(String topologyId, Object metric)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">get_topology_metric</span><span class="params">(String topologyId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">get_metrics</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">list_dirs</span><span class="params">(String path, <span class="keyword">boolean</span> watch)</span> <span class="keyword">throws</span>  Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">backpressureInfos</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set_backpressure_info</span><span class="params">(String topologyId, Map&lt;String, SourceBackpressureInfo&gt; sourceToBackpressureInfo)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;String, SourceBackpressureInfo&gt; <span class="title">get_backpressure_info</span><span class="params">(String topologyId)</span> <span class="keyword">throws</span> Exception</span>;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">teardown_backpressure</span><span class="params">(String topologyId)</span> <span class="keyword">throws</span> Exception</span>;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jstorm/" rel="tag">#jstorm</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/25/jstorm/JStormCache-Code/" rel="next" title="JStormCache源码">
+                <i class="fa fa-chevron-left"></i> JStormCache源码
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/30/jstorm/JStorm-TopologyBuilder-Code/" rel="prev" title="TopologyBuilder源码">
+                TopologyBuilder源码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/11/25/jstorm/NimbusData-Code/"
+           data-title="NimbusData源码" data-url="http://dangxia.github.io/2015/11/25/jstorm/NimbusData-Code/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/logo.svg"
+               alt="Xuehui He" />
+          <p class="site-author-name" itemprop="name">Xuehui He</p>
+          <p class="site-description motion-element" itemprop="description">面朝大海，春暖花开</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">83</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dangxia" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">StormClusterState</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui He</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+  
+  <script type="text/javascript" src="/english.js"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xuehuihe-java"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

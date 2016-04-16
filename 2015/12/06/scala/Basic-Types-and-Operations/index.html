@@ -1,0 +1,864 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="J07Rx2NjTiwjIyxdGuCALSCM2Kzq294kYmnj1f4Izoc" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/fonts/fonts.css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Programming in Scala," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HEXH's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Literals
+
+String literals
+
+Scala includes a special syntaxfor raw strings. You start and end a raw string with three double quotationmarks in a row (&amp;quot;&amp;quot;&amp;quot;). The interior of a raw string m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter5：Basic Types and Operations">
+<meta property="og:url" content="http://dangxia.github.io/2015/12/06/scala/Basic-Types-and-Operations/index.html">
+<meta property="og:site_name" content="HEXH's Blog">
+<meta property="og:description" content="Literals
+
+String literals
+
+Scala includes a special syntaxfor raw strings. You start and end a raw string with three double quotationmarks in a row (&amp;quot;&amp;quot;&amp;quot;). The interior of a raw string m">
+<meta property="og:updated_time" content="2016-04-15T14:31:23.994Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter5：Basic Types and Operations">
+<meta name="twitter:description" content="Literals
+
+String literals
+
+Scala includes a special syntaxfor raw strings. You start and end a raw string with three double quotationmarks in a row (&amp;quot;&amp;quot;&amp;quot;). The interior of a raw string m">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Chapter5：Basic Types and Operations | HEXH's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64562250-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?192da5f5f63c7884ac9970b2d7d49848";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">HEXH's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">面朝大海，春暖花开</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Chapter5：Basic Types and Operations
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-06T11:21:24+08:00" content="2015-12-06">
+              2015-12-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Scala/" itemprop="url" rel="index">
+                    <span itemprop="name">Scala</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/06/scala/Basic-Types-and-Operations/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/06/scala/Basic-Types-and-Operations/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3>Literals</h3>
+<ul>
+<li>String literals</li>
+</ul>
+<p>Scala includes a special syntaxfor raw strings. You start and end a <code>raw string</code> with three double quotationmarks in a row (&quot;&quot;&quot;). The interior of a raw string may contain any characterswhatsoever, including newlines, quotation marks, and special characters, except of course three quotes in a row.</p>
+<figure class="highlight"><figcaption><span>example</span></figcaption><table><tr><td class="code"><pre><span class="line">println("""Welcome to Ultamix 3000.</span><br><span class="line">           Type "HELP" for help.""")</span><br><span class="line">//Welcome to Ultamix 3000.</span><br><span class="line">//         Type "HELP" for help.</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><figcaption><span>put a pipe character (|) at the front of each line,then call stripMargin on strings,to escape the leading spaces</span></figcaption><table><tr><td class="code"><pre><span class="line">println("""|Welcome to Ultamix 3000.</span><br><span class="line">|Type "HELP" for help.""".stripMargin)</span><br><span class="line">//Welcome to Ultamix 3000.</span><br><span class="line">//Type "HELP" for help.""".stripMargin</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Symbol literals</li>
+</ul>
+<p>A symbol literal is written 'ident, where ident can be any alphanumericidentifier. Such literals are mapped to instances of the predefined classscala.Symbol. Specifically, the literal 'cymbal will be expanded by thecompiler to a factory method invocation: Symbol(&quot;cymbal&quot;).</p>
+<blockquote>
+<p><strong>NOTE:</strong><br>
+Another thing that’s noteworthy is that symbols are interned(限定的). If you write the same symbol literal twice, both expressions will refer to the exact same Symbol object.</p>
+</blockquote>
+<h3>Operators and methods</h3>
+<p>Scala provides a rich set of operators for its basic types. As mentioned inprevious chapters, these operators are actually just a nice syntax for ordinary method calls.</p>
+<blockquote>
+<p><strong>Any method can be an operator</strong><br>
+In Scala operators are not special language syntax: any method can be an operator. What makes a method an operator is how you use it. When you write “s.indexOf('o')”, indexOf is not an operator. But when you write “s indexOf 'o'”, indexOf is an operator, because you’re using it in operator notation.</p>
+</blockquote>
+<ul>
+<li>infix operator</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//single argument</span></span><br><span class="line">s indexOf 'o'</span><br><span class="line"><span class="comment">//multiple arguments</span></span><br><span class="line">s indexOf ('o', <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>prefix operator</li>
+</ul>
+<p>Scala will transform the expression -2.0 into the method invocation “(2.0).unary_-”</p>
+<blockquote>
+<p><strong>NOTE</strong>:The only identifiers that can be used as prefix operators are<code>+, -, !, and ~</code>.Thus, if you define a method named unary_!, you could invoke that methodon a value or variable of the appropriate type using prefix operator notation,such as !p. But if you define a method named unary_*, you wouldn’t be ableto use prefix operator notation, because * isn’t one of the four identifiers thatcan be used as prefix operators.</p>
+</blockquote>
+<ul>
+<li>postfix operator</li>
+</ul>
+<p>Postfix operators are methods that take no arguments, when they are invoked without a dot or parentheses.</p>
+<h3>Relational and logical operations</h3>
+<blockquote>
+<p><strong>Note:</strong> You may be wondering how short-circuiting can work given operators are just methods. Normally, all arguments are evaluated before entering a method, so how can a method avoid evaluating its second argument? The answer is that all Scala methods have a facility for delaying the evaluation of their arguments, or even declining to evaluate them at all. The facility is called by-name parameters and is discussed in Section 9.5.</p>
+</blockquote>
+<h3>Object equality</h3>
+<p>If you want to compare two objects for equality, you can use either ==, or its inverse !=.</p>
+<blockquote>
+<p>**How Scala’s == differs from Java’s **<br>
+In Java,you can use == to compare both primitive and reference types. On primitive types, Java’s == compares value equality, as in Scala. On reference types, however, Java’s == compares reference equality, which means the two variables point to the same object on the JVM’s heap. Scala provides a facility for comparing reference equality, as well, under the name eq. However, eq and its opposite, ne, only apply to objects that directly map to Java objects. The full details about eq and ne are given in Sections 11.1 and 11.2. Also, see Chapter 30 on how to write a good equals method.</p>
+</blockquote>
+<h3>Operator precedence and associativity</h3>
+<table>
+<thead>
+<tr>
+<th>Operator precedence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(all other special characters)</td>
+</tr>
+<tr>
+<td>* / %</td>
+</tr>
+<tr>
+<td>+ -</td>
+</tr>
+<tr>
+<td>:</td>
+</tr>
+<tr>
+<td>= !</td>
+</tr>
+<tr>
+<td>&lt; &gt;</td>
+</tr>
+<tr>
+<td>&amp; ˆ |</td>
+</tr>
+<tr>
+<td>(all letters)</td>
+</tr>
+<tr>
+<td>(all assignment operators)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Scala decides precedence based on the first character of the methods used in operator notation</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">a +++ b *** c <span class="comment">//a +++ (b *** c)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>The one exception to the precedence rule</li>
+</ul>
+<p>The one exception to the precedence rule, alluded to above, concerns <strong>assignment operators</strong>, which end in an equals character. If an operator ends in an equals character (=), and the operator is not one of the comparison operators &lt;=, &gt;=, ==, or !=, then the precedence of the operator is the same as that of <strong>simple assignment (=)</strong>.</p>
+<figure class="highlight scala"><figcaption><span>because *= is classified as an assignment operator whose precedence is lower than +, even though the operator’s first character is *, which would suggest a precedence higher than +.</span></figcaption><table><tr><td class="code"><pre><span class="line">x *= y + <span class="number">1</span> <span class="comment">//x *= (y + 1)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>associativity</li>
+</ul>
+<p>No matter what associativity an operator has, however, its operands are always evaluated left to right<br>
+If the methods end in ‘:’, they are grouped right to left; otherwise, they are grouped left to right. For example,<code>a ::: b ::: c</code> is treated as <code>a ::: (b ::: c)</code>. But <code>a * b * c</code>, by contrast, is treated as <code>(a * b) * c</code>.</p>
+<h3>Rich wrappers</h3>
+<p><strong>Some rich operations</strong></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 max 5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>0 min 5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>-2.7 abs</td>
+<td>2.7</td>
+</tr>
+<tr>
+<td>-2.7 round</td>
+<td>-3L</td>
+</tr>
+<tr>
+<td>1.5 isInfinity</td>
+<td>false</td>
+</tr>
+<tr>
+<td>(1.0 / 0) isInfinity</td>
+<td>true</td>
+</tr>
+<tr>
+<td>4 to 6</td>
+<td>Range(4, 5, 6)</td>
+</tr>
+<tr>
+<td>&quot;bob&quot; capitalize</td>
+<td>&quot;Bob&quot;</td>
+</tr>
+<tr>
+<td>&quot;robert&quot; drop 2</td>
+<td>&quot;bert&quot;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rich wrapper classes</strong></p>
+<table>
+<thead>
+<tr>
+<th>Basic</th>
+<th>type Rich wrapper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Byte</td>
+<td>scala.runtime.RichByte</td>
+</tr>
+<tr>
+<td>Short</td>
+<td>scala.runtime.RichShort</td>
+</tr>
+<tr>
+<td>Int</td>
+<td>scala.runtime.RichInt</td>
+</tr>
+<tr>
+<td>Char</td>
+<td>scala.runtime.RichChar</td>
+</tr>
+<tr>
+<td>Float</td>
+<td>scala.runtime.RichFloat</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>scala.runtime.RichDouble</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>scala.runtime.RichBoolean</td>
+</tr>
+<tr>
+<td>String</td>
+<td>scala.collection.immutable.StringOps</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Programming-in-Scala/" rel="tag">#Programming in Scala</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/02/jstorm/JStormMasterBatchCoordinator-Code/" rel="next" title="MasterBatchCoordinator源码">
+                <i class="fa fa-chevron-left"></i> MasterBatchCoordinator源码
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/06/scala/Functional-Objects/" rel="prev" title="Chapter6：Functional Objects">
+                Chapter6：Functional Objects <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/06/scala/Basic-Types-and-Operations/"
+           data-title="Chapter5：Basic Types and Operations" data-url="http://dangxia.github.io/2015/12/06/scala/Basic-Types-and-Operations/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/logo.svg"
+               alt="Xuehui He" />
+          <p class="site-author-name" itemprop="name">Xuehui He</p>
+          <p class="site-description motion-element" itemprop="description">面朝大海，春暖花开</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">83</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dangxia" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Literals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Operators and methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">Relational and logical operations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Object equality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">Operator precedence and associativity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">6.</span> <span class="nav-text">Rich wrappers</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui He</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+  
+  <script type="text/javascript" src="/english.js"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xuehuihe-java"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

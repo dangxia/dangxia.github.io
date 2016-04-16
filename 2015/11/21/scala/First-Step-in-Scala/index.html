@@ -1,0 +1,783 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="J07Rx2NjTiwjIyxdGuCALSCM2Kzq294kYmnj1f4Izoc" />
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="/fonts/fonts.css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Programming in Scala," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="HEXH's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Define some variable
+
+val is similar to a final in Java
+var is not final
+
+Define some functions
+
+
+style-1
+
+def max(x: Int, y: Int): Int = &amp;#123;  if (x &amp;gt; y) x  else y&amp;#125;
+
+style-2
+
+//infer result">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter2：First Step in Scala">
+<meta property="og:url" content="http://dangxia.github.io/2015/11/21/scala/First-Step-in-Scala/index.html">
+<meta property="og:site_name" content="HEXH's Blog">
+<meta property="og:description" content="Define some variable
+
+val is similar to a final in Java
+var is not final
+
+Define some functions
+
+
+style-1
+
+def max(x: Int, y: Int): Int = &amp;#123;  if (x &amp;gt; y) x  else y&amp;#125;
+
+style-2
+
+//infer result">
+<meta property="og:image" content="http://dangxia.github.io/img/scala/define_fun.png">
+<meta property="og:image" content="http://dangxia.github.io/img/scala/syntax_fun_literal.png">
+<meta property="og:updated_time" content="2016-04-15T14:31:23.995Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter2：First Step in Scala">
+<meta name="twitter:description" content="Define some variable
+
+val is similar to a final in Java
+var is not final
+
+Define some functions
+
+
+style-1
+
+def max(x: Int, y: Int): Int = &amp;#123;  if (x &amp;gt; y) x  else y&amp;#125;
+
+style-2
+
+//infer result">
+<meta name="twitter:image" content="http://dangxia.github.io/img/scala/define_fun.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Chapter2：First Step in Scala | HEXH's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-64562250-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?192da5f5f63c7884ac9970b2d7d49848";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">HEXH's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">面朝大海，春暖花开</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Chapter2：First Step in Scala
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-11-21T15:51:16+08:00" content="2015-11-21">
+              2015-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Scala/" itemprop="url" rel="index">
+                    <span itemprop="name">Scala</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/21/scala/First-Step-in-Scala/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/21/scala/First-Step-in-Scala/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3>Define some variable</h3>
+<ul>
+<li><code>val</code> is similar to a final in Java</li>
+<li><code>var</code> is not final</li>
+</ul>
+<h3>Define some functions</h3>
+<p><img src="/img/scala/define_fun.png" alt="" title="define_fun"></p>
+<ul>
+<li>style-1</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>): <span class="type">Int</span> = &#123;</span><br><span class="line">  <span class="keyword">if</span> (x &gt; y) x</span><br><span class="line">  <span class="keyword">else</span> y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>style-2</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//infer result type</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max2</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>) = &#123;</span><br><span class="line">  <span class="keyword">if</span> (x &gt; y) x <span class="keyword">else</span> y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>style-3</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//function body is single line,leave off the curly braces</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max3</span></span>(x: <span class="type">Int</span>, y: <span class="type">Int</span>) = <span class="keyword">if</span> (x &gt; y) x <span class="keyword">else</span> y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>style-4</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">//only side effect(return Unit),leave off the result type and the equals sign, and enclose the body of the method in curly braces.</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print</span></span>(x: <span class="type">Int</span>) &#123; printlin(x) &#125;</span><br></pre></td></tr></table></figure>
+<p><code>Unit</code>:A result type of Unit indicates the function returns no interesting value. Scala’s Unit type is similar to Java’s void type, and in fact every void-returning method in Java is mapped to a Unit-returning method in Scala.</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">greet</span></span>() = println(<span class="string">"Hello, world!"</span>)</span><br><span class="line">greet: ()<span class="type">Unit</span></span><br></pre></td></tr></table></figure>
+<p>**NOTE:**One puzzler to watch out for is that whenever you leave off the equals sign before the body of a function, its result type will definitely be Unit.This is true no matter what the body contains, because the Scala compiler can convert any type to Unit.</p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">scala&gt; <span class="function"><span class="keyword">def</span> <span class="title">f</span></span>(): <span class="type">Unit</span> = <span class="string">"this String gets lost"</span></span><br><span class="line">f: ()<span class="type">Unit</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3>Write some Scala scripts</h3>
+<figure class="highlight scala"><figcaption><span>hello.scala</span></figcaption><table><tr><td class="code"><pre><span class="line">println(<span class="string">"Hello, "</span>+ args(<span class="number">0</span>) +<span class="string">"!"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>run</span></figcaption><table><tr><td class="code"><pre><span class="line">scala hello.scala world</span><br></pre></td></tr></table></figure>
+<ul>
+<li>script in linux</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">exec</span> scala <span class="string">"<span class="variable">$0</span>"</span> <span class="string">"<span class="variable">$@</span>"</span></span><br><span class="line">!<span class="comment">#</span></span><br><span class="line">println(<span class="string">"Hello, "</span>+ args(0) +<span class="string">"!"</span>)</span><br></pre></td></tr></table></figure>
+<h3>Loop with <code>while</code>;decide with <code>if</code></h3>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> (i &lt; args.length) &#123;</span><br><span class="line">  println(args(i))</span><br><span class="line">  i += <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>NOTE that Java’s ++i and i++ don’t work in Scala. To increment in Scala, you need to say either i = i + 1 or i += 1.</strong><br>
+<strong>NOTE that in Scala, as in Java, you must put the boolean expression for a while or an if in parentheses</strong></p>
+<h3>Iterate with <code>foreach</code> and <code>for</code></h3>
+<ul>
+<li>
+<p>imperative style</p>
+</li>
+<li>
+<p>functional style</p>
+<figure class="highlight scala"><figcaption><span>functions are first class constructs</span></figcaption><table><tr><td class="code"><pre><span class="line">args.foreach((arg: <span class="type">String</span>) =&gt; println(arg))</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><figcaption><span>infer arg type</span></figcaption><table><tr><td class="code"><pre><span class="line">args.foreach(arg =&gt; println(arg))</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><figcaption><span>If a function literal consists of one statement that takes a single argument, you need not explicitly name and specify the argument.</span></figcaption><table><tr><td class="code"><pre><span class="line">args.foreach(println)</span><br></pre></td></tr></table></figure>
+<p><img src="/img/scala/syntax_fun_literal.png" alt="" title="syntax_fun_literal.png"></p>
+<figure class="highlight scala"><figcaption><span>it really is a val: arg can’t be reassigned inside the body of the for expression</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (arg &lt;- args)</span><br><span class="line">  println(arg)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3>type inference</h3>
+<ul>
+<li>define some variable</li>
+<li>function result type</li>
+<li>function literal parameter type</li>
+</ul>
+<h3>simple names</h3>
+<ul>
+<li>define some variable</li>
+</ul>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">scala&gt; <span class="keyword">val</span> msg:<span class="type">String</span> = <span class="string">"Hello, world!"</span></span><br><span class="line">msg: java.lang.<span class="type">String</span> = <span class="type">Hello</span>, world!</span><br></pre></td></tr></table></figure>
+<h3>tips</h3>
+<ul>
+<li>multiple lines<br>
+To enter something into the interpreter that spans multiple lines, just keep<br>
+typing after the first line. If the code you typed so far is not complete, the<br>
+interpreter will respond with a vertical bar on the next line.</li>
+<li>escape<br>
+If you realize you have typed something wrong, but the interpreter is still<br>
+waiting for more input, you can escape by pressing enter twice:</li>
+</ul>
+
+      
+    </div>
+    
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Programming-in-Scala/" rel="tag">#Programming in Scala</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/08/algorithm/crc/" rel="next" title="crc">
+                <i class="fa fa-chevron-left"></i> crc
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/21/scala/Next-Steps-in-Scala/" rel="prev" title="Chapter3：Next Steps in Scala">
+                Chapter3：Next Steps in Scala <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/11/21/scala/First-Step-in-Scala/"
+           data-title="Chapter2：First Step in Scala" data-url="http://dangxia.github.io/2015/11/21/scala/First-Step-in-Scala/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/img/logo.svg"
+               alt="Xuehui He" />
+          <p class="site-author-name" itemprop="name">Xuehui He</p>
+          <p class="site-description motion-element" itemprop="description">面朝大海，春暖花开</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">83</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dangxia" target="_blank" title="github">
+                  
+                    <i class="fa fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">Define some variable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Define some functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">Write some Scala scripts</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Loop with while;decide with if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">Iterate with foreach and for</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">6.</span> <span class="nav-text">type inference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">7.</span> <span class="nav-text">simple names</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#undefined"><span class="nav-number">8.</span> <span class="nav-text">tips</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui He</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+  
+  <script type="text/javascript" src="/english.js"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xuehuihe-java"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
